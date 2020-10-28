@@ -1,0 +1,98 @@
+import logging
+import time
+import RPi.GPIO as GPIO
+import requests
+
+GPIO.setmode(GPIO.BCM)
+GPIO.cleanup()
+GPIO.setwarnings(False)
+GPIO.setup(17,GPIO.OUT)
+GPIO.setup(27,GPIO.OUT)
+GPIO.setup(6,GPIO.IN)
+
+while True:
+     i = GPIO.input(6)
+     print(i)
+     if(i == 0) :
+        GPIO.output(17, GPIO.LOW)
+        GPIO.output(27, GPIO.LOW)
+        print("no intruders",i)
+        print("LED off")
+     elif(i == 1):
+         GPIO.output(17, GPIO.HIGH)
+         GPIO.output(27, GPIO.HIGH)
+         url = 'https://notify-api.line.me/api/notify'
+         token = 'S4ndL8rD9JZeJwFy19OnKyfAjEKZDScYDncMyrCrh6w'
+         headers = {'content-type':'application/x-www-form-urlencoded','Authorization':'Bearer '+token}
+         msg = 'มีคนเข้ามา เช็คกล้องหน่อย'
+         r = requests.post(url, headers=headers, data = {'message':msg})
+         print(r.text)
+         o = input("ใช่คนรู้จักไหม (Y/N) : ")
+         if (o == "Y"):
+          cout = 5
+          while cout > 0:
+           GPIO.output(17,GPIO.HIGH)
+           time.sleep(0.5)
+           GPIO.output(27,GPIO.HIGH)
+           time.sleep(0.5)
+           GPIO.output(17,GPIO.LOW)
+           time.sleep(0.5)
+           GPIO.output(27,GPIO.LOW)
+           time.sleep(0.5)
+           cout = cout-1
+          url = 'https://notify-api.line.me/api/notify'
+          token = 'S4ndL8rD9JZeJwFy19OnKyfAjEKZDScYDncMyrCrh6w'
+          headers = {'content-type':'application/x-www-form-urlencoded','Authorization':'Bearer '+token}
+          msg = 'ok roger that'
+          r = requests.post(url, headers=headers, data = {'message':msg})
+          print(r.text)
+          time.sleep(5)
+          print("LED ON")
+
+         elif (o == "N"):
+          cout = 5
+          while cout > 0:
+           GPIO.output(17,GPIO.HIGH)
+           GPIO.output(27,GPIO.HIGH)
+           time.sleep(0.5)
+           GPIO.output(17,GPIO.LOW)
+ o = input("ใช่คนรู้จักไหม (Y/N) : ")
+         if (o == "Y"):
+          cout = 5
+          while cout > 0:
+           GPIO.output(17,GPIO.HIGH)
+           time.sleep(0.5)
+           GPIO.output(27,GPIO.HIGH)
+           time.sleep(0.5)
+           GPIO.output(17,GPIO.LOW)
+           time.sleep(0.5)
+           GPIO.output(27,GPIO.LOW)
+           time.sleep(0.5)
+           cout = cout-1
+          url = 'https://notify-api.line.me/api/notify'
+          token = 'S4ndL8rD9JZeJwFy19OnKyfAjEKZDScYDncMyrCrh6w'
+          headers = {'content-type':'application/x-www-form-urlencoded','Authorization':'Bearer '+token}
+          msg = 'ok roger that'
+          r = requests.post(url, headers=headers, data = {'message':msg})
+          print(r.text)
+          time.sleep(5)
+          print("LED ON")
+
+         elif (o == "N"):
+          cout = 5
+          while cout > 0:
+           GPIO.output(17,GPIO.HIGH)
+           GPIO.output(27,GPIO.HIGH)
+           time.sleep(0.5)
+           GPIO.output(17,GPIO.LOW)
+           GPIO.output(27,GPIO.LOW)
+           time.sleep(0.5)
+           cout = cout-1
+          url = 'https://notify-api.line.me/api/notify'
+          token = 'S4ndL8rD9JZeJwFy19OnKyfAjEKZDScYDncMyrCrh6w'
+          headers = {'content-type':'application/x-www-form-urlencoded','Authorization':'Bearer '+token}
+          msg = 'fbi open up'
+          r = requests.post(url, headers=headers, data = {'message':msg})
+          print(r.text)
+          time.sleep(5)
+          print("LED ON")
